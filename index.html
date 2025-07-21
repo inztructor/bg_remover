@@ -82,9 +82,14 @@
             },
             body: formData,
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to remove background. Please check your API key or try again later.');
+            }
+            return response.json();
+        })
         .then(data => {
-            if (data.result && data.result.url) {
+            if (data && data.result && data.result.url) {
                 document.getElementById('result').innerHTML = `<img src="${data.result.url}" alt="No Background Image"/>`;
             } else {
                 alert("Error: Could not remove background. Please try again.");
@@ -92,12 +97,10 @@
         })
         .catch(error => {
             console.error('Error:', error);
-            alert("An error occurred. Please try again later.");
+            alert(`An error occurred: ${error.message}`);
         });
     }
 </script>
-
-<br /><br /><br /><br /><br /><br /><br /><br /><br />
 
   <p>
 A free background remover is a powerful and accessible tool designed to help users remove the background of an image quickly and easily, without the need for complex software or design experience. Whether you're editing photos for personal use, professional projects, online stores, school assignments, or social media content, this tool can save time and effort. With the help of artificial intelligence and smart detection algorithms, most free background removers can automatically identify the main subject of a photo and cleanly separate it from the background in just a few seconds.
@@ -107,5 +110,6 @@ One of the biggest advantages of a free background remover is that it eliminates
 For content creators, small business owners, students, and casual users alike, a free background remover is a practical solution that offers professional-level results at no cost. Its convenience, speed, and ease of use make it a go-to resource for enhancing images and unleashing creativity, all while staying budget-friendly.
     
   </p>
+    
 </body>
 </html>
